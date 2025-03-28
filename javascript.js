@@ -4,35 +4,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 window.addEventListener("load", () => {
   // Timeline for main animations
-  gsap
-    .timeline({
-      scrollTrigger: {
-        trigger: ".wrapper",
-        start: "top top", // Animation starts immediately
-        end: "+=150%", // Overall timeline duration
-        pin: true,
-        scrub: true,
-        markers: false
-      }
-    })
-    .to("img", {
-      scale: 2,
-      z: 350,
-      opacity: 0, // Fade out as it zooms in
-      transformOrigin: "center center",
-      ease: "power1.inOut"
-    })
-    .to(
-      ".section.hero",
-      {
-        scale: 1.1,
-        transformOrigin: "center center",
-        ease: "power1.inOut",
-        onComplete: showStartPage, // Show Start page after animation
-      },
-      "<"
-    );
+  const timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".wrapper",
+      start: "top top",
+      end: "+=150%", // Durée de l'animation
+      pin: true, // Épingle la section pendant le défilement
+      scrub: true, // Synchronise avec le défilement
+      markers: false
+    }
+  });
 
+  // Animation des images
+  timeline.to("img", {
+    scale: 2,
+    z: 350,
+    opacity: 0,
+    transformOrigin: "center center",
+    ease: "power1.inOut",
+  });
 
 });
 
@@ -50,7 +40,8 @@ gsap.to(".text-overlay span", {
   ease: "power1.inOut", // Smooth easing
   stagger: 0.1 // Quick stagger between each text element
 });
-function showStartPage () {
+
+
   let currentStep = 1;
   const totalSteps = 1; //28
   const choices = [];
@@ -141,7 +132,6 @@ function showStartPage () {
       [0, 0, 1, 0, 1]      // Image 83
   ];
   const body = document.body;
-  
   // Add event listener for starting the test
   document.getElementById('startTestBtn').addEventListener('click', () => {
       document.getElementById('back-btn').style.display = 'block';
@@ -163,6 +153,17 @@ function showStartPage () {
       updateProgressBar();
   });
   
+    // Event listener for restarting the test
+  document.getElementById('restartTestBtn').addEventListener('click', () => {
+      currentStep = 1;
+      choices.length = 0; // Reset choices
+      document.getElementById('startTest').style.display = 'none';
+      document.getElementById('resultsContainer').style.display = 'none';
+      document.getElementById('testContainer').style.display = 'block';
+      updateProgressBar(); // Reset progress bar
+      moveToNextStep(); // Reset the images and test steps
+  });
+
   // Event listener for image selection
   document.querySelectorAll('.image-selection img').forEach(img => {
       img.addEventListener('click', (e) => {
@@ -272,77 +273,87 @@ function showStartPage () {
   }
   
   // Functions for generating descriptions in French
-  function getDescriptionForOpenness(score) {
-      const description = score >= 50 ? 
-          "Vous êtes une personne qui aime explorer de nouveaux <span class='interactive-word'>horizons</span>, que ce soit dans vos pensées, vos activités ou vos <span class='interactive-word'>intérêts</span>. Votre <span class='interactive-word'>curiosité</span> est votre boussole, et vous vous sentez constamment attiré(e) par les <span class='interactive-word'>idées nouvelles</span>, les expériences <span class='interactive-word'>non conventionnelles</span>  et les découvertes créatives." :
-          "Vous êtes une personne qui préfère la <span class='interactive-word'>stabilité</span> et la sécurité des idées éprouvées. Le confort de la <span class='interactive-word'>routine</span> et des expériences familières vous apporte une sensation de <span class='interactive-word'>contrôle</span> et de tranquillité.";
-      return description;
-      }
+  function getDescriptionForOpenness(score) { 
+    let description;
+
+    if (score >= 0 && score < 25) {
+        description = "Vous êtes une personne <span class='interactive-word'>pragmatique</span> et attachée à la <span class='interactive-word'>stabilité</span>. Les <span class='interactive-word'>routines familières</span> et les solutions <span class='interactive-word'>éprouvées</span> sont vos alliées. Par exemple, vous trouvez du plaisir à suivre des <span class='interactive-word'>habitudes régulières</span>, comme prendre toujours le même chemin pour aller au travail.";
+    } else if (score >= 25 && score < 50) {
+        description = "Vous êtes une personne qui trouve un équilibre entre la <span class='interactive-word'>curiosité modérée</span> et le <span class='interactive-word'>pragmatisme</span>. Vous aimez explorer de nouvelles idées à petite échelle, comme essayer un <span class='interactive-word'>nouveau restaurant</span> tout en gardant vos préférences pour des <span class='interactive-word'>activités familières</span>.";
+    } else if (score >= 50 && score < 75) {
+        description = "Vous êtes une personne <span class='interactive-word'>curieuse</span> et <span class='interactive-word'>créative</span>, appréciant à la fois la <span class='interactive-word'>stabilité</span> et les <span class='interactive-word'>idées nouvelles</span>. Vous pourriez, par exemple, explorer des <span class='interactive-word'>activités artistiques</span> ou discuter de <span class='interactive-word'>concepts innovants</span>, tout en conservant certaines routines réconfortantes.";
+    } else if (score >= 75 && score <= 100) {
+        description = "Vous êtes une personne <span class='interactive-word'>visionnaire</span> et profondément <span class='interactive-word'>imaginative</span>. Vous recherchez constamment les <span class='interactive-word'>idées originales</span> et les expériences <span class='interactive-word'>non conventionnelles</span>, comme participer à des <span class='interactive-word'>expériences immersives</span> ou vous lancer dans des <span class='interactive-word'>aventures créatives</span>.";
+    }
+    return description;
+}
+
   
-  function getDescriptionForConscientiousness(score) {
-      return score >= 50 ? 
-          "Vous êtes une personne extrêmement <span class='interactive-word'>organisée</span> et <span class='interactive-word'>méthodique</span>, toujours prête à planifier, fixer des objectifs et les atteindre avec une grande discipline. Vous aimez que les choses soient bien structurées, et vous faites attention aux détails dans tout ce que vous entreprenez. Votre capacité à rester concentré(e) sur vos tâches, même dans des situations difficiles, vous rend particulièrement fiable. Vous êtes quelqu'un sur qui on peut compter pour respecter les délais et tenir vos engagements. Votre rigueur et votre sens des responsabilités vous permettent souvent de réussir là où d'autres peinent à suivre." : 
-          "Vous êtes une personne qui préfère la spontanéité et la flexibilité dans votre approche de la vie. Plutôt que de suivre un plan rigide, vous vous laissez guider par l'inspiration du moment. Vous pouvez parfois paraître désorganisé(e), mais votre capacité à improviser et à vous adapter aux circonstances est une de vos forces. Les règles strictes et les délais serrés ne vous conviennent pas toujours, et vous vous épanouissez davantage dans des environnements où vous avez la liberté de faire les choses à votre manière, sans contraintes. Vous appréciez de vivre dans l'instant, et vous n'êtes pas gêné(e) par le fait que tout ne soit pas toujours sous contrôle.";
-      }
-  
-  function getDescriptionForExtraversion(score) {
-      return score >= 50 ? 
-          "Vous êtes une personne énergique et dynamique, qui adore être au cœur de l’action. Les interactions sociales vous apportent une source de plaisir et d’énergie, et vous appréciez d’être entouré(e) de monde. Que ce soit lors de fêtes, de discussions en groupe ou de rencontres spontanées, vous vous épanouissez dans des environnements où vous pouvez exprimer votre enthousiasme et votre esprit sociable. Vous êtes naturellement porté(e) vers les autres, et votre présence est souvent remarquée grâce à votre charisme et votre assurance. Vous êtes quelqu'un qui n'hésite pas à prendre les devants et à attirer l'attention dans les situations sociales" : 
-          "Vous êtes une personne qui préfère les environnements calmes et les interactions en petit comité. Le bruit et l’agitation des grandes <span class='interactive-word'>foules</span>  peuvent parfois vous épuiser, et vous vous sentez plus à l’aise lorsque vous avez du temps pour vous, dans un cadre tranquille. Plutôt que de rechercher des relations sociales à tout prix, vous appréciez les moments de réflexion et de <span class='interactive-word'>solitude</span> , où vous pouvez vous ressourcer. Vous êtes attentif(ve) à la qualité de vos relations, privilégiant des conversations profondes et significatives plutôt que des discussions superficielles. Vous savez apprécier le silence et n'avez pas besoin de vous imposer pour vous sentir à l’aise.";
+function getDescriptionForConscientiousness(score) {
+  let description;
+
+  if (score >= 0 && score < 25) {
+      description = "Vous êtes une personne qui valorise avant tout la <span class='interactive-word'>spontanéité</span> et la <span class='interactive-word'>liberté</span>. Vous avez une approche <span class='interactive-word'>détendue</span> de la vie, où les règles strictes et la <span class='interactive-word'>discipline rigide</span> ont peu de place. Par exemple, vous préférez improviser vos projets plutôt que de tout planifier à l'avance, et cela vous permet de vous adapter facilement aux imprévus.";
+  } else if (score >= 25 && score < 50) {
+      description = "Vous êtes une personne qui aime trouver un équilibre entre la <span class='interactive-word'>flexibilité</span> et une certaine dose d'<span class='interactive-word'>organisation</span>. Vous suivez des plans simples mais n'hésitez pas à changer de direction si une opportunité ou un imprévu se présente. Par exemple, vous pourriez planifier vaguement vos vacances tout en laissant de la place à des décisions spontanées.";
+  } else if (score >= 50 && score < 75) {
+      description = "Vous êtes une personne <span class='interactive-word'>organisée</span> et <span class='interactive-word'>pragmatique</span>, sans être trop rigide. Vous aimez fixer des <span class='interactive-word'>objectifs</span> clairs et travailler méthodiquement pour les atteindre. Par exemple, vous planifiez votre journée avec des listes de tâches, mais vous êtes aussi capable de réajuster si nécessaire. Votre <span class='interactive-word'>discipline</span> et votre sens des priorités vous aident à gérer efficacement vos responsabilités.";
+  } else if (score >= 75 && score <= 100) {
+      description = "Vous êtes une personne extrêmement <span class='interactive-word'>disciplinée</span>, avec un sens aigu de la <span class='interactive-word'>rigueur</span> et de la <span class='interactive-word'>responsabilité</span>. Vous planifiez tout dans les moindres détails, que ce soit pour un projet professionnel ou personnel. Par exemple, vous aimez organiser vos finances avec précision ou préparer un emploi du temps détaillé pour maximiser votre productivité. Vous êtes quelqu'un de <span class='interactive-word'>fiable</span>, et les autres se tournent souvent vers vous pour vos qualités de <span class='interactive-word'>gestionnaire</span>.";
   }
+
+  return description;
+}
+
   
-  function getDescriptionForAgreeableness(score) {
-      return score >= 50 ? 
-          "Vous êtes une personne empathique et bienveillante, toujours prête à <span class='interactive-word'>écouter</span>  les autres et à offrir votre soutien. Les conflits ne vous attirent pas, et vous préférez favoriser l’harmonie dans vos relations. La gentillesse, la coopération et la compréhension sont des valeurs importantes pour vous. Vous vous mettez souvent à la place des autres, cherchant à maintenir des liens positifs et à éviter les malentendus. Vous inspirez confiance, et vos proches savent qu’ils peuvent compter sur vous pour être à leurs côtés dans les moments difficiles." : 
-          "Vous êtes une personne qui accorde une grande importance à vos propres opinions et valeurs. Plutôt que de vous laisser influencer par les autres ou d’essayer de plaire, vous préférez défendre ce en quoi vous croyez, même si cela implique des désaccords. Vous n’avez pas peur de dire ce que vous pensez, même si cela va à contre-courant de l’opinion générale. Cela peut vous rendre parfois perçu(e) comme étant plus direct(e) ou compétitif(ve), mais vous savez que l’authenticité est plus importante que l’approbation sociale. Vous êtes plus orienté(e) vers vos propres objectifs que vers le besoin d’apaiser les autres.";
+function getDescriptionForExtraversion(score) {
+  let description;
+
+  if (score >= 0 && score < 25) {
+      description = "Vous êtes une personne qui privilégie la <span class='interactive-word'>solitude</span> et les environnements <span class='interactive-word'>calmes</span>. Vous trouvez votre énergie dans des moments de <span class='interactive-word'>réflexion personnelle</span> ou dans des activités paisibles comme lire un livre ou écouter de la musique douce. Les grandes <span class='interactive-word'>foules</span> et les interactions sociales trop intenses peuvent parfois vous sembler <span class='interactive-word'>épuisantes</span>, et vous préférez les éviter autant que possible.";
+  } else if (score >= 25 && score < 50) {
+      description = "Vous êtes une personne qui apprécie à la fois les moments de <span class='interactive-word'>tranquillité</span> et les interactions sociales en petit groupe. Vous vous sentez bien dans des cadres <span class='interactive-word'>intimistes</span>, où vous pouvez engager des conversations significatives, mais sans être le centre de l’attention. Par exemple, vous aimez passer une soirée tranquille avec des amis proches plutôt qu'assister à des événements bruyants ou bondés.";
+  } else if (score >= 50 && score < 75) {
+      description = "Vous êtes une personne sociable et pleine d'<span class='interactive-word'>enthousiasme</span>. Vous aimez participer à des <span class='interactive-word'>événements</span> ou rencontrer de nouvelles personnes, mais vous savez aussi apprécier des moments de calme pour vous recentrer. Par exemple, vous pouvez passer un week-end à faire la fête, suivi d’une journée de repos chez vous. Votre équilibre entre sociabilité et introspection vous rend <span class='interactive-word'>flexible</span> dans les environnements sociaux.";
+  } else if (score >= 75 && score <= 100) {
+      description = "Vous êtes une personne naturellement <span class='interactive-word'>énergique</span> et <span class='interactive-word'>charismatique</span>. Les interactions sociales sont une véritable source de <span class='interactive-word'>plaisir</span> pour vous, et vous aimez être au centre de l'attention. Par exemple, vous vous épanouissez lors de fêtes animées, de discussions en groupe ou même en prenant la parole en public. Votre <span class='interactive-word'>confiance</span> et votre <span class='interactive-word'>enthousiasme</span> sont contagieux, et les autres sont naturellement attirés par votre présence.";
   }
+
+  return description;
+}
+
   
-  function getDescriptionForNeuroticism(score) {
-      return score >= 50 ? 
-          "Vous êtes une personne très sensible aux émotions, et vous ressentez fortement les hauts et les bas de la vie. Les situations stressantes peuvent parfois vous affecter profondément, et vous avez tendance à vous inquiéter ou à douter plus facilement que d'autres. Cependant, cette sensibilité vous permet aussi d'être particulièrement en phase avec vos propres émotions et celles des autres. Vous pouvez être sujet(te) à l’anxiété ou à des moments d’insécurité, mais cela vous pousse aussi à être introspectif(ve) et à chercher des moyens d’améliorer votre bien-être." : 
-          "Vous êtes une personne calme et stable sur le plan émotionnel. Même face à des situations stressantes, vous gardez votre sang-froid et êtes rarement submergé(e) par l’inquiétude ou les émotions négatives. Votre résilience naturelle vous permet de rester serein(e) lorsque d'autres pourraient paniquer. Vous avez confiance en vous et en votre capacité à gérer les imprévus sans perdre votre équilibre. Cette stabilité fait de vous un soutien solide pour ceux qui vous entourent, car vous savez comment garder les choses en perspective.";
+function getDescriptionForAgreeableness(score) {
+  let description;
+
+  if (score >= 0 && score < 25) {
+      description = "Vous êtes une personne qui valorise avant tout l'<span class='interactive-word'>authenticité</span> et la défense de vos <span class='interactive-word'>convictions personnelles</span>. Vous êtes direct(e) dans vos échanges et n’avez pas peur d’exprimer des opinions qui peuvent aller à l’encontre de la majorité. Par exemple, dans un débat, vous êtes souvent celui ou celle qui n'hésite pas à poser des questions difficiles ou à challenger les idées des autres. Votre approche peut être perçue comme <span class='interactive-word'>compétitive</span>, mais elle reflète votre désir de rester fidèle à vous-même.";
+  } else if (score >= 25 && score < 50) {
+      description = "Vous êtes une personne qui cherche à équilibrer vos <span class='interactive-word'>opinions personnelles</span> avec le besoin de maintenir des <span class='interactive-word'>relations harmonieuses</span>. Par exemple, vous pouvez défendre votre point de vue dans une discussion, mais vous savez aussi quand il est préférable de faire des compromis pour éviter les conflits. Vous appréciez les échanges respectueux et recherchez un juste milieu entre l’<span class='interactive-word'>affirmation</span> de soi et la <span class='interactive-word'>coopération</span>.";
+  } else if (score >= 50 && score < 75) {
+      description = "Vous êtes une personne <span class='interactive-word'>bienveillante</span> et <span class='interactive-word'>coopérative</span>, mais sans négliger vos propres besoins. Vous accordez une grande importance à l'<span class='interactive-word'>harmonie</span> dans vos relations et faites des efforts pour éviter les malentendus ou les tensions. Par exemple, vous êtes souvent celui ou celle qui propose des solutions équilibrées dans un conflit, cherchant à satisfaire toutes les parties tout en restant fidèle à vos principes.";
+  } else if (score >= 75 && score <= 100) {
+      description = "Vous êtes une personne profondément <span class='interactive-word'>empathique</span> et <span class='interactive-word'>altruiste</span>. Vous êtes toujours prêt(e) à écouter les autres, à offrir votre <span class='interactive-word'>soutien</span>, et à privilégier l’<span class='interactive-word'>harmonie</span> dans vos relations. Par exemple, vous n’hésitez pas à mettre vos propres besoins de côté pour aider un ami en difficulté ou résoudre un conflit dans votre entourage. Votre <span class='interactive-word'>gentillesse</span> et votre <span class='interactive-word'>compréhension</span> font de vous une personne de confiance, sur laquelle vos proches peuvent toujours compter.";
   }
+
+  return description;
+}
+
   
-  // Event listener for restarting the test
-  document.getElementById('restartTestBtn').addEventListener('click', () => {
-      currentStep = 1;
-      choices.length = 0; // Reset choices
-      document.getElementById('startTest').style.display = 'none';
-      document.getElementById('resultsContainer').style.display = 'none';
-      document.getElementById('testContainer').style.display = 'block';
-      updateProgressBar(); // Reset progress bar
-      moveToNextStep(); // Reset the images and test steps
-  });
-  document.addEventListener("DOMContentLoaded", function () {
-      const words = document.querySelectorAll(".interactive-word");
-      const ratingBar = document.getElementById("rating-bar");
-      const slider = document.getElementById("slider");
-  
-      if (!ratingBar || words.length === 0 || !slider) {
-          console.error("Élément introuvable");
-          return;
-      }
-  
-      words.forEach(word => {
-          word.addEventListener("mouseenter", function (event) {
-              const rect = word.getBoundingClientRect();
-              ratingBar.style.left = `${rect.left}px`;
-              ratingBar.style.top = `${rect.bottom + window.scrollY + 10}px`;
-              ratingBar.classList.add("active");
-          });
-  
-          word.addEventListener("mouseleave", function () {
-              ratingBar.classList.remove("active");
-          });
-      });
-  
-      slider.addEventListener("input", function () {
-          const value = slider.value;
-          const dislikeEmoji = document.querySelector(".dislike");
-          const likeEmoji = document.querySelector(".like");
-          dislikeEmoji.classList.toggle("active", value < 50);
-          likeEmoji.classList.toggle("active", value >= 50);
-      });
-  });
-  ;
+function getDescriptionForNeuroticism(score) {
+  let description;
+
+  if (score >= 0 && score < 25) {
+      description = "Vous êtes une personne <span class='interactive-word'>extrêmement stable</span> sur le plan émotionnel. Même face à des défis majeurs ou des imprévus, vous gardez votre <span class='interactive-word'>sang-froid</span> et votre <span class='interactive-word'>confiance</span>. Par exemple, dans une situation de crise, vous êtes souvent celui ou celle qui rassure les autres et propose des solutions pratiques. Votre capacité à rester <span class='interactive-word'>imperturbable</span> fait de vous un véritable pilier pour ceux qui vous entourent.";
+  } else if (score >= 25 && score < 50) {
+      description = "Vous êtes une personne <span class='interactive-word'>équilibrée</span> sur le plan émotionnel, capable de gérer le stress tout en restant <span class='interactive-word'>réaliste</span>. Bien que vous puissiez parfois ressentir de l’inquiétude, vous ne vous laissez pas facilement submerger par les émotions négatives. Par exemple, vous pourriez être un peu nerveux(se) avant un événement important, mais vous trouvez rapidement des moyens de vous <span class='interactive-word'>recentrer</span> et de rester productif(ve).";
+  } else if (score >= 50 && score < 75) {
+      description = "Vous êtes une personne <span class='interactive-word'>sensible</span> et <span class='interactive-word'>introspective</span>, souvent touchée par les hauts et les bas de la vie. Vous pouvez être sujet(te) à des moments de <span class='interactive-word'>stress</span> ou de doute, mais vous êtes également très conscient(e) de vos émotions et celles des autres. Par exemple, dans une situation stressante, vous pourriez avoir besoin de temps pour vous apaiser, mais cela vous aide aussi à mieux comprendre vos propres besoins et à soutenir les autres.";
+  } else if (score >= 75 && score <= 100) {
+      description = "Vous êtes une personne très <span class='interactive-word'>émotive</span> et <span class='interactive-word'>sensible</span> aux variations de votre environnement. Les situations stressantes ou les conflits peuvent souvent vous <span class='interactive-word'>affecter profondément</span>, et vous êtes sujet(te) à des moments d'<span class='interactive-word'>anxiété</span>. Cependant, cette sensibilité vous rend aussi incroyablement <span class='interactive-word'>introspectif(ve)</span> et attentif(ve) aux émotions des autres, ce qui peut faire de vous un(e) confident(e) exceptionnel(le) et un(e) excellent(e) allié(e) pour ceux qui ont besoin d’un soutien émotionnel.";
+  } else {
+      description = "Score invalide. Veuillez entrer un score compris entre 0 et 100.";
+  }
+
+  return description;
 }

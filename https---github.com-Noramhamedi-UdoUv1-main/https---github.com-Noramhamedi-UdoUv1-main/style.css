@@ -19,6 +19,13 @@
   width: 100%;
   height: 100vh;
 }
+
+.content .section.hero {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .image-container {
   width: 100%;
   height: 100vh;
@@ -106,27 +113,17 @@
   transform: translateY(0); /* No initial movement */
   transition: all 0.5s ease; /* Fallback for browsers without GSAP */
 }
-/* Classe pour la première page avec l'image de fond */
-.bg-image {
-  background-image: url('V2.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  background-color: #f4efe3; 
-}
 
-/* Classe pour masquer l'image de fond */
-.no-bg {
-  background-color: #f4efe3; /* Couleur de fond pour les autres sections */
+main {
+  display: flex;
+  flex-direction: column; /* Les sections se superposent verticalement */
+  height: auto;
+  overflow-x: hidden; /* Pas de défilement horizontal */
 }
-
 
 
 #startTest {
+  background: #fff;
   color: white;
   text-align: center;
   display: flex;
@@ -225,7 +222,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-#testContainer h3 {
+main #testContainer h3 {
   font-size: 2rem;
   color: #5656bf; /* Dark lavender blue for heading */
   margin-bottom: 20px; /* Space below the heading */
@@ -309,26 +306,26 @@ footer {
 
 /* Make the results page responsive */
 @media (max-width: 768px) {
-  #resultsContainer {
+  main #resultsContainer {
       width: 95%;
       padding: 20px;
   }
 
-  #resultsContainer h2 {
+  main #resultsContainer h2 {
       font-size: 2rem;
   }
 
-  #resultsContainer ul li {
+  main #resultsContainer ul li {
       font-size: 1.2rem;
       flex-direction: column;
       align-items: flex-start;
   }
 
-  #resultsContainer ul li span {
+  main #resultsContainer ul li span {
       margin-top: 10px;
   }
 
-  #restartTestBtn {
+  main #restartTestBtn {
       width: 100%;
       padding: 15px;
       pointer-events: auto;
@@ -337,25 +334,25 @@ footer {
 
 
 
-#resultsContainer h2 {
+main #resultsContainer h2 {
   font-size: 2.5rem;
   color: #fff; /* Bleu lavande foncé pour les titres de résultats */
   margin-bottom: 20px;
 }
 
-#resultsContainer p {
+main #resultsContainer p {
   font-size: 1.2rem;
   color: #5656bf;
   margin-bottom: 20px;
 }
 
-#resultsContainer ul {
+main #resultsContainer ul {
   list-style-type: none;
   padding: 0;
   margin: 20px 0;
 }
 
-#resultsContainer ul li {
+main #resultsContainer ul li {
   font-size: 1rem;
   margin: 15px 0;
   display: flex;
@@ -365,12 +362,12 @@ footer {
   border-bottom: 1px solid #c9cdd7;
 }
 
-#resultsContainer ul li span {
+main #resultsContainer ul li span {
   font-weight: bold;
   color: #0400d8; /* Bleu profond pour les scores */
 }
 
-#resultsContainer ul li span:nth-child(2) {
+main #resultsContainer ul li span:nth-child(2) {
   color: #30aca3; /* Vert turquoise pour la description */
   font-weight: normal;
   font-size: 1.2rem;
@@ -414,7 +411,7 @@ footer {
 }
 
 /* Style pour le bouton de redémarrage */
-#restartTestBtn {
+main #restartTestBtn {
   background-color: #30aca3;
   padding: 12px 30px;
   color: white;
@@ -426,28 +423,28 @@ footer {
   transition: background-color 0.3s ease;
 }
 
-#restartTestBtn:hover {
+main #restartTestBtn:hover {
   background-color: #218f8a;
 }
 
-#resultsContainer .interactive-word {
+main #resultsContainer .interactive-word {
   color: #479ef5!important; /* Forcer la couleur */
   cursor: pointer;
   text-decoration: underline;
   transition: color 0.3s ease;
 }
 
-#resultsContainer .interactive-word:hover {
+main #resultsContainer .interactive-word:hover {
   color: #8407aa  !important; /* Couleur différente au survol */
 }
 
-#resultsContainer.interactive-word:hover + #rating-bar, #rating-bar:hover {
+main #resultsContainer.interactive-word:hover + #rating-bar, #rating-bar:hover {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1)
 }
 
-#rating-bar {
+main #rating-bar {
   display: flex;
   position: absolute;
   height: 50px;   
@@ -460,7 +457,7 @@ footer {
   pointer-events: none;
 }
 
-#rating-bar.active {
+main #rating-bar.active {
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -469,7 +466,7 @@ footer {
   display: none !important;
 }
 
-#slider {
+main #slider {
   flex-grow: 1;
   width: 90px;
   margin: 5px;
@@ -477,7 +474,7 @@ footer {
   display: block; /* S'assure qu'il est visible */
 }
 
-#slider:hover {
+main #slider:hover {
   background: #bbb;
 }
 
