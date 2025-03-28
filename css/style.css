@@ -1,0 +1,507 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper,
+.content {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.content {
+  overflow-x: hidden;
+}
+
+.content .section {
+  width: 100%;
+  height: 100vh;
+}
+.image-container {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  perspective: 500px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+@font-face {
+  font-family: 'Bernard MT Condensed';
+  src: local('Bernard MT Condensed'), url('path-to-font/BernardMTCondensed.woff2') format('woff2'),
+       url('path-to-font/BernardMTCondensed.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+.discover {
+  font-family: 'Bernard MT Condensed', sans-serif;
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  font-size: 7rem;
+  font-weight: 300;
+  color: #F5F5F5;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.who {
+  font-family: 'Bernard MT Condensed', sans-serif;
+  position: absolute;
+  top: 36%;
+  left: 30%;
+  font-size: 5rem;
+  font-weight: 300;
+  color: #F5F5F5;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.you {
+  font-family: 'Bernard MT Condensed', sans-serif;
+  position: absolute;
+  bottom: 37%;
+  right: 30%;
+  font-size: 5rem;
+  font-weight: 300;
+  color: #F5F5F5;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.are {
+  font-family: 'Bernard MT Condensed', sans-serif;
+  position: absolute;
+  bottom: 21%;
+  right: 27%;
+  font-size: 7rem;
+  font-weight: 300;
+  color: #F5F5F5;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.text-overlay span {
+  opacity: 1; /* Visible initially */
+  transform: translateY(0); /* No initial movement */
+  transition: all 0.5s ease; /* Fallback for browsers without GSAP */
+}
+/* Classe pour la première page avec l'image de fond */
+.bg-image {
+  background-image: url('white.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f4efe3; 
+}
+
+/* Classe pour masquer l'image de fond */
+.no-bg {
+  background-color: #f4efe3; /* Couleur de fond pour les autres sections */
+}
+
+
+#startTest, #testContainer, #resultsContainer {
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position : relative;
+  align-items: center;
+  padding: 20px;
+  flex-grow: 1; /* Permet à ces sections de remplir l'espace disponible entre le header et le footer */
+  overflow-y: auto; /* Ajoute une barre de défilement si le contenu dépasse */
+  box-sizing: border-box; /* Assure que le padding est inclus dans la hauteur totale */
+}
+
+header {
+  margin: 0;
+  padding: 20px 20px; /* Ajoute un espace interne équilibré */
+  background-color: #030080; /* Bleu foncé */
+  color: #f4efe3; /* Texte beige crème */
+  position: relative; /* Garde le header visible lors du défilement */
+  top: 0; /* Fixe le header en haut */
+  z-index: 1000; /* Priorité d'affichage */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombre légère */
+  font-family: 'Bernard MT Condensed', sans-serif; /* Style de texte */
+  display: flex; /* Utilise flexbox pour organiser les éléments */
+  justify-content: space-between; /* Sépare les éléments (bouton et titre) */
+  align-items: center; /* Aligne les éléments verticalement au centre */
+  height: auto; /* Ajuste la hauteur selon le contenu */
+}
+
+h1 {
+  margin: 0; /* Supprime les marges externes pour un positionnement précis */
+  font-size: clamp(2.5rem, 5vw, 4rem); /* Taille adaptative pour une meilleure réactivité */
+  text-align: center; /* Centre le texte à l'intérieur du h1 */
+  line-height: 1.2; /* Espacement vertical équilibré */
+  letter-spacing: 0.05em; /* Espacement subtil entre les lettres */
+  flex-grow: 1; /* Permet au titre de s'étendre pour occuper tout l'espace disponible */
+  position: relative; /* Maintient sa place dans le flux du flexbox */
+  color: #f4efe3; /* Couleur du texte */
+}
+
+
+
+h2 {
+  margin: 0 auto; /* Centre horizontalement */
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  font-family: 'Bernard MT Condensed', sans-serif;
+  color: #fff;
+  background-color: #5656bf;
+  border: 2px solid #5656bf;
+  border-radius: 18px;
+  display: inline-block;
+  text-align: center; /* Centre le texte à l'intérieur du rectangle */
+}
+h3 {
+  margin: 0 auto; /* Centre horizontalement */
+  padding: 10px 20px;
+  font-size: 2.5rem;
+  font-family: 'Bernard MT Condensed', sans-serif;
+  color: #fff;
+  border-radius: 18px;
+  display: inline-block;
+  text-align: center;
+}
+
+p {
+  font-family: 'Bernard MT Condensed', sans-serif;
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #f4efe3;
+}
+
+button {
+  padding: 12px 25px;
+  background-color: #30aca3; /* Vert turquoise pour les boutons */
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Bernard MT Condensed', sans-serif;
+  border-radius: 5px;
+  margin-top: 150px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218f8a; /* Assombrissement pour l'effet hover */
+}
+
+button:disabled {
+  background-color: #c9cdd7; /* Gris clair bleuté pour les boutons désactivés */
+  cursor: not-allowed;
+}
+
+#testContainer h3 {
+  font-size: 2rem;
+  color: #5656bf; /* Dark lavender blue for heading */
+  margin-bottom: 20px; /* Space below the heading */
+}
+
+#footTest {
+  margin-top: 5px; /* Space above the footer */
+  text-align: center; /* Center-align button in footer */
+}
+
+
+#back-btn {
+  background-color: #30aca3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 10;
+  position: relative; /* Position relative pour rester dans le flux du flexbox */
+  margin: 0; /* Supprime les marges */
+}
+
+#back-btn:hover {
+  background-color: #218f8a;
+}
+
+.image-selection {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 0 10px;
+}
+
+.image-selection img {
+  width: 30%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-selection img:hover {
+  transform: scale(1.05);
+}
+
+.image-selection img.selected {
+  border-color: #5656bf; /* Bleu lavande foncé pour les images sélectionnées */
+  transform: scale(1.1);
+}
+
+footer {
+  padding: 20px;
+  background: #030080;
+  color: #f4efe3;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.9rem;
+  text-align: center; /* Center-align button in footer */
+}
+
+#progressContainer {
+  width: 100%;
+  height: 20px;
+  background-color: #c9cdd7; /* Gris clair bleuté pour le fond de la barre de progression */
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+#progressBar {
+  width: 0;
+  height: 100%;
+  background-color: #5656bf; /* Vert turquoise pour la progression */
+  transition: width 0.3s ease;
+}
+
+#progressBar1 {
+  background-color: #5656bf; /* Vert turquoise pour la progression */
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#progressBar2 {
+  background-color: #5656bf; /* Vert turquoise pour la progression */
+  padding: 10px;
+  border-radius: 10px;
+}
+#progressBar3 {
+  background-color: #5656bf; /* Vert turquoise pour la progression */
+  padding: 10px;
+  border-radius: 10px;
+}
+#progressBar4 {
+  background-color: #5656bf; /* Vert turquoise pour la progression */
+  padding: 10px;
+  border-radius: 10px;
+}
+#progressBar5 {
+  background-color: #5656bf; /* Vert turquoise pour la progression */
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
+/* Make the results page responsive */
+@media (max-width: 768px) {
+  #resultsContainer {
+      width: 95%;
+      padding: 20px;
+  }
+
+  #resultsContainer h2 {
+      font-size: 2rem;
+  }
+
+  #resultsContainer ul li {
+      font-size: 1.2rem;
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  #resultsContainer ul li span {
+      margin-top: 10px;
+  }
+
+  #restartTestBtn {
+      width: 100%;
+      padding: 15px;
+      pointer-events: auto;
+      margin: 0 auto; /* Centre horizontalement si le conteneur est un bloc */
+  }
+} 
+
+
+
+#resultsContainer h2 {
+  font-size: 2.5rem;
+  color: #fff; /* Bleu lavande foncé pour les titres de résultats */
+  margin-bottom: 20px;
+}
+
+#resultsContainer p {
+  font-size: 1.2rem;
+  color: #5656bf;
+  margin-bottom: 20px;
+}
+
+#resultsContainer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+#resultsContainer ul li {
+  font-size: 1rem;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #b0b2b6;
+}
+
+#resultsContainer ul li span {
+  font-weight: bold;
+  color: #0400d8; /* Bleu profond pour les scores */
+}
+
+
+
+/* Liste horizontale avec nowrap */
+.horizontal-container {
+  display: flex;
+  flex-wrap: nowrap; /* Forcer tout sur une seule ligne */
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style des éléments de la liste */
+.horizontal-container li {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 250px; /* Largeur minimale pour chaque élément */
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+
+/* Style pour le bouton de redémarrage */
+#restartTestBtn {
+  background-color: #30aca3;
+  padding: 12px 30px;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px; /* Diminue l'espace au-dessus pour le remonter */
+  margin-bottom: 20px; /* Ajoute un espace en dessous si nécessaire */
+  transition: background-color 0.3s ease;
+
+  /* Centrage vertical dans le conteneur parent */
+  position: relative; /* Permet de gérer le positionnement relatif au parent */
+  top: -20px; /* Remonte le bouton de 20px */
+}
+
+#restartTestBtn:hover {
+  background-color: #218f8a;
+}
+
+.interactive-word {
+  color: #008881!important; /* Forcer la couleur */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.interactive-word:hover {
+  color: #ff9900  !important; /* Couleur différente au survol */
+}
+.rating-bar-container {
+  display: flex;
+  align-items: center;
+  position: absolute; /* Positionné pour permettre un placement dynamique */
+  height: 50px;
+  background-color: #5656bf;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+  z-index: 10; /* S'assurer que la barre est au-dessus des autres éléments */
+}
+
+.rating-bar-container.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.rating-bar-container.hidden {
+  display: none !important;
+}
+
+.rating-bar-container .emoji {
+  font-size: 20px;
+  margin: 0 10px; /* Ajout d'un espacement horizontal */
+  transition: opacity 0.3s ease;
+}
+
+.rating-bar-container .emoji.active {
+  opacity: 1;
+}
+
+.rating-bar-container input[type="range"] {
+  flex-grow: 1;
+  width: 100px;
+  margin: 0 10px; /* Espacement interne pour le slider */
+  cursor: pointer;
+  display: block;
+}
+
+.rating-bar-container input[type="range"]:hover {
+  background: #bbb;
+}
+
+/* Associer la barre de notation à chaque mot interactif */
+.interactive-word:hover + .rating-bar-container, 
+.rating-bar-container:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
