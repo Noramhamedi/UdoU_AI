@@ -1,35 +1,15 @@
-/* =========================
-   PALETTE UNIQUE
-========================= */
-:root {
-  --bg-main: #fdf0e4;
-  --bg-secondary: #c9cdd7;
-  --primary: #5a75ff;
-}
-
-/* =========================
-   RESET
-========================= */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* =========================
-   STRUCTURE
-========================= */
-body,
-.bg-image,
-.no-bg {
-  background-color: var(--bg-main);
-  font-family: Arial, sans-serif;
-}
-
 .wrapper,
 .content {
-  width: 100%;
   position: relative;
+  width: 100%;
+  z-index: 1;
 }
 
 .content {
@@ -41,14 +21,15 @@ body,
   height: 100vh;
 }
 
-/* =========================
-   IMAGE HERO
-========================= */
 .image-container {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  perspective: 500px;
   overflow: hidden;
 }
 
@@ -56,25 +37,34 @@ body,
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
 }
 
-/* =========================
-   TEXTE HERO
-========================= */
 .text-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   pointer-events: none;
 }
 
+/* =========================
+   TEXTES HERO
+========================= */
 .discover,
 .who,
 .you,
 .are {
+  font-family: 'Nunito', sans-serif;
   position: absolute;
-  font-family: 'Bernard MT Condensed', sans-serif;
+  font-size: inherit;
   font-weight: 300;
-  color: var(--bg-main);
+  color: #fdf0e4;
+  pointer-events: none;
 }
 
 .discover {
@@ -101,100 +91,138 @@ body,
   font-size: 7rem;
 }
 
-/* =========================
-   SECTIONS
-========================= */
+.text-overlay span {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+.bg-image {
+  background-image: url('white.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Nunito', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #fdf0e4;
+}
+
+.no-bg {
+  background-color: #fdf0e4;
+}
+
 #startTest,
 #testContainer,
 #resultsContainer {
-  color: var(--primary);
+  color: #5a75ff;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   align-items: center;
   padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
-/* =========================
-   HEADER & FOOTER
-========================= */
-header,
-footer {
-  background-color: var(--primary);
-  color: var(--bg-main);
-  padding: 20px;
+header {
+  margin: 0;
+  padding: 20px 20px;
+  background-color: #5a75ff;
+  color: #fdf0e4;
+  position: relative;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
 }
 
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   text-align: center;
-}
-
-/* =========================
-   TITRES & TEXTE
-========================= */
-h1,
-h2,
-h3,
-p {
-  font-family: 'Bernard MT Condensed', sans-serif;
-  color: var(--primary);
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  flex-grow: 1;
+  position: relative;
+  color: #fdf0e4;
+  font-family: 'Nunito', sans-serif;
 }
 
 h2 {
-  background-color: var(--primary);
-  color: var(--bg-main);
+  margin: 0 auto;
   padding: 10px 20px;
+  font-size: 1.5rem;
+  font-family: 'Nunito', sans-serif;
+  color: #fdf0e4;
+  background-color: #5a75ff;
+  border: 2px solid #5a75ff;
   border-radius: 18px;
+  display: inline-block;
+  text-align: center;
 }
 
-/* =========================
-   BOUTONS
-========================= */
-button,
-#restartTestBtn,
-#back-btn {
-  background-color: var(--primary);
-  color: var(--bg-main);
-  border: none;
-  border-radius: 5px;
+h3 {
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: 2.5rem;
+  font-family: 'Nunito', sans-serif;
+  color: #5a75ff;
+  border-radius: 18px;
+  display: inline-block;
+  text-align: center;
+}
+
+p {
+  font-family: 'Nunito', sans-serif;
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #5a75ff;
+}
+
+button {
   padding: 12px 25px;
+  background-color: #5a75ff;
+  color: #fdf0e4;
+  border: none;
   cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Nunito', sans-serif;
+  border-radius: 5px;
+  margin-top: 150px;
 }
 
 button:disabled {
-  background-color: var(--bg-secondary);
+  background-color: #c9cdd7;
+  cursor: not-allowed;
 }
 
-/* =========================
-   IMAGES SELECTION
-========================= */
-.image-selection {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
+footer {
+  padding: 20px;
+  background: #5a75ff;
+  color: #fdf0e4;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.9rem;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
 }
 
-.image-selection img {
-  width: 30%;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.image-selection img.selected {
-  outline: 3px solid var(--primary);
-}
-
-/* =========================
-   PROGRESSION
-========================= */
 #progressContainer {
   width: 100%;
   height: 20px;
-  background-color: var(--bg-secondary);
+  background-color: #c9cdd7;
   border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
 }
 
 #progressBar,
@@ -203,62 +231,32 @@ button:disabled {
 #progressBar3,
 #progressBar4,
 #progressBar5 {
-  background-color: var(--primary);
-  height: 100%;
-}
-
-/* =========================
-   RESULTATS
-========================= */
-#resultsContainer ul {
-  list-style: none;
-  padding: 0;
-}
-
-#resultsContainer ul li {
-  background-color: var(--bg-secondary);
+  background-color: #5a75ff;
   padding: 10px;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
 
-#resultsContainer ul li span {
-  color: var(--primary);
-  font-weight: bold;
-}
-
-/* =========================
-   INTERACTIF
-========================= */
 .interactive-word {
-  color: var(--primary);
+  color: #5a75ff !important;
   cursor: pointer;
+  font-family: 'Nunito', sans-serif;
 }
 
 .rating-bar-container {
-  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 50px;
+  background-color: #5a75ff;
   border-radius: 12px;
-  padding: 10px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .rating-bar-container.active {
   opacity: 1;
   visibility: visible;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-  .image-selection {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .image-selection img {
-    width: 90%;
-    margin-bottom: 15px;
-  }
+  pointer-events: auto;
 }
