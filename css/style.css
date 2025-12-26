@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -22,12 +21,13 @@
   height: 100vh;
 }
 
-/* ================= IMAGE ================= */
 .image-container {
   width: 100%;
   height: 100vh;
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 2;
   perspective: 500px;
   overflow: hidden;
@@ -37,23 +37,34 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
 }
 
-/* ================= TEXT OVERLAY ================= */
 .text-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   pointer-events: none;
 }
 
+/* =========================
+   TEXTES HERO
+========================= */
 .discover,
 .who,
 .you,
 .are {
-  position: absolute;
   font-family: 'Nunito', sans-serif;
+  position: absolute;
+  font-size: inherit;
   font-weight: 300;
   color: #fdf0e4;
+  pointer-events: none;
 }
 
 .discover {
@@ -80,52 +91,172 @@
   font-size: 7rem;
 }
 
-/* ================= HEADER ================= */
-header {
-  position: relative;
-  padding: 20px;
-  background-color: #5a75ff;
-  color: #fdf0e4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Nunito', sans-serif;
-  z-index: 1000;
-
-  /* IMPORTANT : invisible au départ */
-  opacity: 0;
+.text-overlay span {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
 }
 
-/* ================= TEXT ================= */
-h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  letter-spacing: 0.05em;
+.bg-image {
+  background-image: url('white.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: 'Nunito', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #fdf0e4;
 }
 
-p {
-  font-family: 'Nunito', sans-serif;
-  color: #5a75ff;
+.no-bg {
+  background-color: #fdf0e4;
 }
 
-button {
-  margin-top: 150px;
-  padding: 12px 25px;
-  background-color: #5a75ff;
-  color: #fdf0e4;
-  border: none;
-  border-radius: 5px;
-  font-family: 'Nunito', sans-serif;
-  cursor: pointer;
-}
-
-/* ================= CONTAINERS ================= */
 #startTest,
 #testContainer,
 #resultsContainer {
   color: #5a75ff;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   align-items: center;
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+header {
+  margin: 0;
+  padding: 20px 20px;
+  background-color: #5a75ff;
+  color: #fdf0e4;
+  position: relative;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  flex-grow: 1;
+  position: relative;
+  color: #fdf0e4;
+  font-family: 'Nunito', sans-serif;
+}
+
+h2 {
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  font-family: 'Nunito', sans-serif;
+  color: #fdf0e4;
+  background-color: #5a75ff;
+  border: 2px solid #5a75ff;
+  border-radius: 18px;
+  display: inline-block;
+  text-align: center;
+}
+
+h3 {
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: 2.5rem;
+  font-family: 'Nunito', sans-serif;
+  color: #5a75ff;
+  border-radius: 18px;
+  display: inline-block;
+  text-align: center;
+}
+
+p {
+  font-family: 'Nunito', sans-serif;
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #5a75ff;
+}
+
+button {
+  padding: 12px 25px;
+  background-color: #5a75ff;
+  color: #fdf0e4;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Nunito', sans-serif;
+  border-radius: 5px;
+  margin-top: 150px;
+}
+
+button:disabled {
+  background-color: #c9cdd7;
+  cursor: not-allowed;
+}
+
+footer {
+  padding: 20px;
+  background: #5a75ff;
+  color: #fdf0e4;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.9rem;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+}
+
+#progressContainer {
+  width: 100%;
+  height: 20px;
+  background-color: #c9cdd7;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+#progressBar,
+#progressBar1,
+#progressBar2,
+#progressBar3,
+#progressBar4,
+#progressBar5 {
+  background-color: #5a75ff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.interactive-word {
+  color: #5a75ff !important;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+}
+
+.rating-bar-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 50px;
+  background-color: #5a75ff;
+  border-radius: 12px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.rating-bar-container.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
