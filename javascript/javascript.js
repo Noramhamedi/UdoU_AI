@@ -82,19 +82,18 @@ gsap.to("header", {
     y: "-200", // Monte le titre de 100 pixels
     ease: "power1.out", // Doucement pour un effet naturel
   });
-  window.addEventListener("scroll", () => {
-    // Obtenir la position actuelle de défilement et la hauteur totale
-    const scrollTop = window.scrollY; // Position actuelle de défilement (haut de la page)
-    const viewportHeight = window.innerHeight; // Hauteur visible de la fenêtre
-    const totalHeight = document.body.scrollHeight; // Hauteur totale de la page
-  
-    // Vérifier si l'utilisateur a atteint la fin du défilement
-    if (scrollTop + viewportHeight >= totalHeight) {
-            // Cache la section animée et affiche la page interactive
-      document.querySelector(".wrapper").style.display = "none"; // Cache la section animée
-    }
-    else {
-            document.querySelector(".wrapper").style.display = "block"; 
+ window.addEventListener("scroll", () => {
+  const scrollTop = window.scrollY;
+  const viewportHeight = window.innerHeight;
+  const totalHeight = document.body.scrollHeight;
 
-    } 
-  });
+  const wrapper = document.querySelector(".wrapper");
+
+  if (scrollTop + viewportHeight >= totalHeight - 10) {
+    wrapper.style.visibility = "hidden";
+    wrapper.style.pointerEvents = "none";
+  } else {
+    wrapper.style.visibility = "visible";
+    wrapper.style.pointerEvents = "auto";
+  }
+});
